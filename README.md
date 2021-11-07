@@ -1,2 +1,2 @@
 # Anomaly-Detector
-An anomaly detector for a class project
+A basic anomaly detector for a class project
