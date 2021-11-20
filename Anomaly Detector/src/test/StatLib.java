@@ -5,44 +5,32 @@ public class StatLib {
 
 	// simple average
 	public static float avg(float[] x) {
-		float fAvg = 0;
-
 		if (x.length == 0)
 			return 0;
-		for (int nIndex = 0; nIndex < x.length; nIndex++)
-			fAvg += x[nIndex];
+
+		float fAvg = 0;
+
+		// sums the values of the given array
+		for (float fIter: x)
+			fAvg += fIter;
 
 		return fAvg / x.length;
 	}
 
 	// returns the variance of X and Y
 	public static float var(float[] x) {
-		float fVar = 0;
-		float fXavg = avg(x);
-
-		for (int nIndex = 0; nIndex < x.length; nIndex++) {
-			fVar += ((x[nIndex]) * (x[nIndex]));
-		}
-
-		return (fVar / x.length) - (fXavg * fXavg);
+		return cov(x,x);
 	}
 
 	// returns the covariance of X and Y
 	public static float cov(float[] x, float[] y) {
 		float fCovCalc = 0;
 
-		// Sigma XY
-		for(int nIndex=0;nIndex<x.length;nIndex++){
-			fCovCalc += x[nIndex]*y[nIndex];
+		for (int nIndex = 0; nIndex < x.length; nIndex++) {
+			fCovCalc += ((x[nIndex]) * (y[nIndex]));
 		}
 
-		// divided by n
-		fCovCalc /= x.length;
-
-		// subtract the average of x multiplied by the average of y
-		fCovCalc -= avg(x) * avg(y);
-
-		return fCovCalc;
+		return (fCovCalc / x.length) - (avg(x) * avg(y));
 	}
 
 
@@ -55,11 +43,8 @@ public class StatLib {
 	public static Line linear_reg(Point[] points) {
 		float[] x = subPointArray(points, false);
 		float[] y = subPointArray(points, true);
-		float a;
-		float b;
-
-		a = cov(x, y) / var(x);
-		b = avg(y) - (a * avg(x));
+		float a = cov(x, y) / var(x);
+		float b = avg(y) - (a * avg(x));
 
 		return new Line(a, b);
 	}
